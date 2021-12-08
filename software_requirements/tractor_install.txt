@@ -1,0 +1,58 @@
+#CREATE A TEMPORARY CONDA ENV
+#CAN LIKELY ALSO BE DONE PERMANENTLY WITH A MINICONDA INSTALLED IN /home/jovyan
+
+conda deactivate
+
+conda create --name tractor
+conda activate tractor
+
+conda install pip
+conda install pkg-config
+conda install cfitsio
+conda install numpy
+conda install swig
+pip install matplotlib
+conda install fitsio
+conda install cairo
+conda install jpeg
+pip install scipy
+
+
+mkdir code
+
+cd code
+git clone https://github.com/dstndstn/astrometry.net.git
+cd astrometry.net
+make
+make py
+export PYTHONPATH=/home/jovyan/code/astrometry.net:$PYTHONPATH
+
+cd ..
+git clone https://github.com/dstndstn/tractor.git
+cd tractor
+make
+python setup.py install --prefix=/home/jovyan/code/tractor/
+export PYTHONPATH=/home/jovyan/code/tractor:$PYTHONPATH
+
+
+
+#CREATE tractor KERNEL FOR JUPYTERLAB
+
+pip install ipykernel
+python -m ipykernel install --user --name=tractor
+
+
+#Have to tell jupyter where to find these custom installed things
+#Option 1:
+
+#In first cell inside a notebook:
+import sys
+sys.path.append('/home/jovyan/code/tractor')
+sys.path.append('/home/jovyan/code/astrometry.net')
+
+#Option 2:
+#I THINK ABOVE STEP CAN BE REPLACED IF WE INSTALL THIS STUFF IN site-packages AS FOLLOWS
+cd /opt/conda/envs/tractor/lib/python3.10/site-packages/
+ln -s /home/jovyan/code/astrometry.net astrometry.net
+ln -s /home/jovyan/code/tractor tractor
+cd
