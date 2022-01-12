@@ -1,0 +1,15 @@
+Third-party software currently being used in Python notebook:
+
+astrometry
+astropy
+astroquery
+matplotlib
+numpy
+os
+pandas
+photutils
+pyvo
+sys
+tractor (dependencies: https://github.com/jegpeek/fornax/commit/74a7c84b8f4bb0d9413a5a7fe6bb0660f0cfd361)
+
+astroquery must be extended to access GALEX and Spitzer images from the cloud, rather than only from on-premises archives.
